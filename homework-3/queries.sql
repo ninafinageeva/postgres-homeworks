@@ -2,9 +2,9 @@
 -- 1. Название компании заказчика (company_name из табл. customers) и ФИО сотрудника, работающего над заказом этой компании (см таблицу employees),
 -- когда и заказчик и сотрудник зарегистрированы в городе London, а доставку заказа ведет компания United Package (company_name в табл shippers)
 SELECT customers.company_name AS customer, CONCAT(first_name,' ', last_name) AS employee FROM orders
-INNER JOIN customers USING(customer_id)
-INNER JOIN employees USING(employee_id)
-INNER JOIN shippers ON shippers.shipper_id = orders.ship_via
+JOIN customers USING(customer_id)
+JOIN employees USING(employee_id)
+JOIN shippers ON shippers.shipper_id = orders.ship_via
 WHERE employees.city = 'London' AND customers.city = 'London' AND shippers.company_name = 'United Package'
 
 -- 2. Наименование продукта, количество товара (product_name и units_in_stock в табл products),
@@ -12,9 +12,9 @@ WHERE employees.city = 'London' AND customers.city = 'London' AND shippers.compa
 -- которые не сняты с продажи (поле discontinued) и которых меньше 25 и которые в категориях Dairy Products и Condiments.
 -- Отсортировать результат по возрастанию количества оставшегося товара.
 SELECT product_name,units_in_stock, contact_name,phone FROM products
-INNER JOIN suppliers USING(supplier_id)
-INNER JOIN categories USING(category_id)
-WHERE discontinued IN ('0') AND category_name IN('Dairy Products', 'Condiments') AND units_in_stock < 25
+JOIN suppliers USING(supplier_id)
+JOIN categories USING(category_id)
+WHERE discontinued = 0 AND category_name IN('Dairy Products', 'Condiments') AND units_in_stock < 25
 ORDER BY units_in_stock;
 
 -- 3. Список компаний заказчиков (company_name из табл customers), не сделавших ни одного заказа
